@@ -6,11 +6,18 @@
     <div class="card">
         <div class="card-header"> <h2>Novo Artigo</h2></div>
         <div class="card-body">
-            <form method="POST" action="/categories/save">
+            <form method="POST" action="/articles/save">
                 <input type="text" class="form-control" name="title" placeholder="Defina o titulo da categoria...">
                 <br>
                 <textarea class="form-control" placeholder="Escreva o artigo aqui." name="body" id="article">
                 </textarea>
+                <br>
+                <label>Categoria: </label>
+                <select name="category" id="form-control">
+                    <% categories.forEach((category)=>{ %>
+                        <option value="<%= category.id %>"><%= category.title %></option>
+                    <% }) %>
+                </select>
                 <br>
                 <button class="btn btn-success">Cadastrar</button>
             </form>
