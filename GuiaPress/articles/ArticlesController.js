@@ -6,7 +6,11 @@ const slugify = require('slugify');
 
 router.get('/admin/articles',(req, res) => {
 
-    res.send("ROTA DOS ARTIGOS!");
+    Article.findAll({
+        include: [{model: Category}]
+    }).then(articles =>{
+        res.render('admin/articles/index',{articles: articles})
+    })
 
 })
 router.get('/admin/articles/new', (req, res) => {
@@ -29,6 +33,45 @@ router.post('/articles/save', (req, res) => {
     }).then(()=>{
         res.redirect('/admin/articles');
     })
+})
+
+router.get("/admin/articles/edit/:id",(req,res) => {
+    var id = req.params.id;
+     if(isNaN(id)){
+        res.redirect('/admin/articles')
+     }
+
+    Article.findByPk(id).then(article =>{
+        if(article != undefined){
+            res.render("admin/articles/edit",{article: article});
+        }else{
+            res.redirect('/admin/articles');
+        }
+    }).catch(erro =>{
+        res.redirect('/admin/articles')
+    })
+})
+
+router.post('/articles/delete', (req, res) => {
+    var id = req.body.id;
+    
+    if(id != undefined){
+        
+        if(!isNaN(id)){
+
+            Article.destroy({
+                where: {
+                    id: id
+                }
+            }).then(()=>{
+                res.redirect('/admin/articles')
+            })
+        }else{//não for um número
+            res.redirect('/admin/articles')
+        }
+     }else{//null
+        res.redirect('/admin/articles');
+     }
 })
 
 module.exports = router;

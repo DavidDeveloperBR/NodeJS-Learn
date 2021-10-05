@@ -3,21 +3,16 @@
 <%- include('./partials/homenavbar.ejs') %>
 <body>
     <div class="container">
-        <% articles.forEach(article => {%>
           <div class="card">
               <div class="card-header">
                   <h2><%=article.title %></h2>
               </div>
               <br>
               <div class="card-body">
-                  <a href="#" class="btn btn-success">Ler artigo</a>
+                <%=article.body %>
               </div>
               <br>
           </div>  
-        <% }) %>
-
-
-
     </div>
 </body>
 
