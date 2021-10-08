@@ -4,12 +4,12 @@
 <div class="container">
     <hr>
     <div class="card">
-        <div class="card-header"> <h2>Novo Artigo</h2></div>
+        <div class="card-header"> <h2>Editar Artigo</h2></div>
         <div class="card-body">
-            <form method="POST" action="/articles/save">
-                <input type="text" class="form-control" name="title" placeholder="Defina o titulo da categoria...">
+            <form method="POST" action="/articles/update">
+                <input type="text" class="form-control" name="title" placeholder="Defina o titulo da categoria..." value="<%=article.title%>">
                 <br>
-                <textarea class="form-control" placeholder="Escreva o artigo aqui." name="body" id="article">
+                <textarea class="form-control" placeholder="Escreva o artigo aqui." name="body" id="article" >
                 </textarea>
                 <br>
                 <label>Categoria: </label>
@@ -19,11 +19,15 @@
                     <% }) %>
                 </select>
                 <br>
-                <button class="btn btn-success">Cadastrar</button>
+                <button class="btn btn-success">Atualizar</button>
             </form>
         </div>
 
     </div>
+</div>
+
+<div id="content" style="display: none;">
+    <%-article.body %>
 </div>
 
 <%- include('../../partials/footer.ejs') %>
@@ -37,7 +41,10 @@
         plugins: [
             'advlist autolist link image lists print preview hr searchreplace wordcount fullscreen insertdatetime media save table paste emoticons'
 
-        ]
+        ],
+        init_instance_callback: () => {
+            tinymce.get('article').setContent($('#content').html())
+        }
     })
 
 </script>
