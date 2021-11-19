@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const session = require('express-session');
 const connection = require('./database/database')
 const categoriesController = require('./categories/CategoriesController')
 const articlesController = require('./articles/ArticlesController')
@@ -8,6 +9,16 @@ const usersController = require('./users/UsersController')
 const Article = require('./articles/Article')
 const Category = require('./categories/Category')
 const User = require('./users/User');
+
+//Session
+app.use(session({
+    secret: "chewie",
+    cookie: {
+        maxAge: 30000
+    }
+}))
+
+
 //body parser
 app.use(express.urlencoded({extended:false}));
 app.use(express.json());
