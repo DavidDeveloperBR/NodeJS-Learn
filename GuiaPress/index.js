@@ -14,7 +14,7 @@ const User = require('./users/User');
 app.use(session({
     secret: "chewie",
     cookie: {
-        maxAge: 30000
+        maxAge: 3000000
     }
 }))
 
@@ -28,6 +28,30 @@ app.use(express.json());
 app.use(express.static('public'))
 
 app.set('view engine', 'ejs')
+
+//Manipular Session
+// app.get('/session',(req,res)=>{
+//     req.session.treinamento = "Aplicativo JavaScript David",
+//     req.session.ano = 2021,
+//     req.session.email = 'david@mail.com',
+//     req.session.user = {
+//         id: 10,
+//         username: 'David Rodrigues'
+//     }
+
+//     res.send("Sessão gerada!");
+// });
+
+// app.get('/leitura',(req,res)=>{
+//     res.json({
+//         treinamento: req.session.treinamento,
+//         ano: req.session.ano,
+//         email: req.session.email,
+//         user: req.session.user
+//     })
+
+// });
+
 
 app.get("/",(req, res)=>{
 
