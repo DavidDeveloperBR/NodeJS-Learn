@@ -18,7 +18,7 @@ router.post('/users/create', (req,res) =>{
     var email = req.body.email;
     var password = req.body.password;
 
-    User.finOne({where: {email:email}}).then(user =>{
+    User.findOne({where: {email:email}}).then(user =>{
         if(user = undefined){
             
             var salt = bcrypt.genSaltSync(10);
@@ -38,6 +38,36 @@ router.post('/users/create', (req,res) =>{
         }
     })
 
+
+})
+
+router.get('/users/login',(req,res) =>{
+    res.render('admin/users/login')
+})
+
+router.post('/autheticate', (req,res)=>{
+    
+    var email = req.body.email;
+    var password = req.body.password;
+
+    User.findOne({where: {email: email}}).then(user =>{
+        if(user != undefined){
+            //validar senha
+            var correct = bcrypt.compareSync(password, user.password);
+
+            if(correct){
+                req.session.user = {
+                   id: user.id,
+                   email: user.email
+                }
+                res.json(req.session.user);
+            }else{
+                res.redirect('/users/login');  
+            }
+        }else{
+            res.redirect('/users/login');
+        }
+    })
 
 })
 
