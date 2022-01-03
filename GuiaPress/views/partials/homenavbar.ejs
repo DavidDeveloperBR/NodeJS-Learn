@@ -9,13 +9,15 @@
             <a class="nav-link" href="/">Home</a>
         </li>
 
-        <% categories.forEach( category =>{ %>
+        <% categories.forEach(category => { %>
             <li class="nav-item">
-                <a class="nav-link" href="/category/<%=category.slug %>"><%= category.title %></a>
+                <a  class="nav-link" href="/category/<%= category.slug %>"><%= category.title %></a>
             </li>
-        <%})%>
+        <% }) %>
 
+        <li class="nav-item">
+            <a class="nav-link" href="/users/logout">Logout</a>
+        </li>
 
-        
     </ul>
 </nav>

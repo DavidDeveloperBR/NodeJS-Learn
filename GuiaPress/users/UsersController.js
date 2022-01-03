@@ -14,32 +14,31 @@ router.get('/admin/users/create',(req, res)=>{
     res.render('admin/users/create')
 });
 
-router.post('/users/create', (req,res) =>{
+router.post("/users/create", (req, res) => {
     var email = req.body.email;
     var password = req.body.password;
+    
+    User.findOne({where:{email: email}}).then( user => {
+        if(user == undefined){
 
-    User.findOne({where: {email:email}}).then(user =>{
-        if(user = undefined){
-            
             var salt = bcrypt.genSaltSync(10);
-            var hash = bcrypt.hashSync(password,salt);
-        
+            var hash = bcrypt.hashSync(password, salt);
+            
             User.create({
                 email: email,
                 password: hash
-            }).then(()=>{
-                res.redirect('/');
-            }).catch((err)=>{
-                res.redirect('/');
-            })
+            }).then(() => {
+                res.redirect("/");
+            }).catch((err) => {
+                res.redirect("/");
+            });
+
 
         }else{
             res.redirect("/admin/users/create");
         }
-    })
-
-
-})
+    });
+});
 
 router.get('/users/login',(req,res) =>{
     res.render('admin/users/login')
@@ -60,7 +59,7 @@ router.post('/autheticate', (req,res)=>{
                    id: user.id,
                    email: user.email
                 }
-                res.json(req.session.user);
+                res.redirect('/admin/articles')
             }else{
                 res.redirect('/users/login');  
             }
@@ -70,5 +69,10 @@ router.post('/autheticate', (req,res)=>{
     })
 
 })
+
+router.get('/users/logout', (req,res)=>{
+    req.session.user = undefined;
+    res.redirect('/');
+});
 
 module.exports = router;

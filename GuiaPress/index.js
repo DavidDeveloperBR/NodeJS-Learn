@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
+const connection = require('./database/database');
 const session = require('express-session');
-const connection = require('./database/database')
 const categoriesController = require('./categories/CategoriesController')
 const articlesController = require('./articles/ArticlesController')
 const usersController = require('./users/UsersController')
@@ -14,8 +14,10 @@ const User = require('./users/User');
 app.use(session({
     secret: "chewie",
     cookie: {
-        maxAge: 3000000
-    }
+        maxAge: 30000
+    },
+    resave: true,
+    saveUninitialized: true
 }))
 
 
