@@ -1,12 +1,12 @@
 class Filme {
 
-    constructor(){
-        this.titulo = "";
-        this.ano = 0;
-        this.genero = "";
-        this.diretor = "";
+    constructor(titulo, ano, genero, diretor, duracao ){
+        this.titulo = titulo;
+        this.ano = ano;
+        this.genero = genero;
+        this.diretor = diretor;
+        this.duracao = duracao;
         this.atores = [];
-        this.duracao = 0;
     }
 
     Reporduzir(){
@@ -25,14 +25,31 @@ class Filme {
         console.log("Fechar X");
     }
 
+    Ficha(){
+        console.log("Titulo: "+this.titulo+" , Ano: "+this.ano+" , Genero: "
+        +this.genero+" , Diretor: "+this.diretor+" , Duração: "+this.duracao+" , Atores: "+this.atores);
+        this.Reporduzir();
+    }
+
 }
 
+
 var vingadores = new Filme();
-var hulk = new Filme();
-var starWars = new Filme();
 
-vingadores.Reporduzir();
+vingadores.titulo = "Vingadores 2";
+vingadores.ano = 2014;
+vingadores.genero = "Ação";
 
-console.log("Titulo do filme: "+vingadores.titulo)
-console.log("Titulo do filme: "+hulk.titulo)
-console.log("Titulo do filme: "+starWars.titulo)
+console.log(vingadores);
+
+var batman = new Filme();
+
+batman.titulo = "Batman Begins";
+batman.ano = 1995;
+batman.genero = "Ação";
+
+console.log(batman);
+
+var hulk = new Filme("O Incrivel Hulk",2010, "Ação", "Sicrano", 120);
+
+hulk.Ficha();
