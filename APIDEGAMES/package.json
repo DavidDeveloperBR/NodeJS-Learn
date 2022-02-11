@@ -1,0 +1,19 @@
+{
+  "name": "apidegames",
+  "version": "1.0.0",
+  "description": "Desenvolvimento de uma API de uma loja de games",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "JavaScript",
+    "REST",
+    "API"
+  ],
+  "author": "David Rodrigues",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.2"
+  }
+}
