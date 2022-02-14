@@ -1,8 +1,10 @@
 const express = require('express');
 const app = express();
 
-app.use(express.urlencoded({ extended: false }));
-app.use
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+
 
 let DB = {
     games: [
@@ -56,6 +58,72 @@ app.get("/game/:id", (req,res)=>{
 
     res.json(DB.games.id == id);
 });
+
+app.post("/game",(res,req) => {
+    
+    var {title, ano, preco} = req.body;
+
+    DB.games.push({
+        id: 5,
+        title,
+        ano,
+        preco
+    });
+    
+});
+
+app.delete("/game/:id", (req,res)=>{
+
+    if(isNaN(req.params.id)){
+        //res.send("Isso não é um número!");
+        res.sendStatus(400);
+    }else{
+        let id = parseInt(req.params.id);
+
+        let index = DB.games.findIndex(g => g.id == id);
+
+        if(index == -1){
+            res.sendStatus(404);
+        }else{
+            DB.games.splice(index,1);
+            res.sendStatus(200);
+        }
+
+
+    }
+});
+
+app.put("/game/:id", (req,res) =>{
+
+    if(isNaN(req.params.id)){
+        //res.send("Isso não é um número!");
+        res.sendStatus(400);
+    }else{
+
+        let id = parseInt(req.params.id);
+
+        let game = DB.games.findIndex(g => g.id == id);
+        
+        var {title, ano, preco} = req.body;
+
+        if(title != undefined){
+            game.preco = preco;
+        }
+
+        if(ano != undefined){
+            game.ano = ano;
+        }
+
+        
+        if(preco != undefined){
+            game.preco = ano;
+        }
+
+        res.sendStatus(200);
+
+    }
+
+})
 
 app.listen(45678, ()=>{
     console.log("API RODANDO...");
