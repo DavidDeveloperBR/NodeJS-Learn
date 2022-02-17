@@ -2,14 +2,12 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 
-
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 
-let DB = {
+var DB = {
     games: [
         {
             id: 1,
@@ -39,7 +37,7 @@ app.get("/games",(req, res)=>{
     res.json(DB.games);
 });
 
-app.get("/game/:id", (req,res)=>{
+app.get("/game/:id", (req,res) => {
 
     if(isNaN(req.params.id)){
         //res.send("Isso não é um número!");
@@ -62,20 +60,20 @@ app.get("/game/:id", (req,res)=>{
     res.json(DB.games.id == id);
 });
 
-app.post("/game",(res,req) => {
+app.post("/game",(req , res) => {
     
     var {title, ano, preco} = req.body;
-
     DB.games.push({
-        id: 5,
+        id: 24,
         title,
         ano,
         preco
     });
     
+    res.statusCode = 200;
 });
 
-app.delete("/game/:id", (req,res)=>{
+app.delete("/game/:id", (req,res) => {
 
     if(isNaN(req.params.id)){
         //res.send("Isso não é um número!");

@@ -5,14 +5,64 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loja de Games</title>
+    <hr>
+    <h4>Lista de Games</h4>
+    <ul id="games"></ul>
+    <hr>
+    <h4>Cadastro de Games</h4>
+    <input type="text" name="title" id="title" placeholder="Titulo"><br>
+    <input type="number" name="year" id="year" placeholder="Ano"><br>
+    <input type="number" name="price" id="price" placeholder="Preço"><br>
+    <button type="button" onclick="createGame()">Criar</button>
 </head>
 <body>
     
 
 </body>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script>axios.get("http://localhost:45678/games").then(response =>{
-    console.log(response);
+<script>
+
+function createGame(){
+        var titleInput = document.getElementById("title");
+        var yearInput = document.getElementById("year");
+        var priceInput = document.getElementById("price");
+
+        var game = {
+            title: titleInput.value,
+            ano: yearInput.value,
+            preco: priceInput.value,
+        }
+
+        axios.post("http://localhost:45678/game", game).then(response =>{
+
+            if(response.status == 200){
+                alert("Game cadastrado!");
+            }
+
+        }).catch(err =>{
+            console.log(err);
+        })
+    }
+
+
+axios.get("http://localhost:45678/games").then(response =>{
+
+
+    var games = response.data;
+    var list = document.getElementById("games");
+
+    games.forEach(game => {
+        var itemList = document.createElement("li");
+
+        itemList.setAttribute("data-id",game.id);
+        itemList.setAttribute("data-title",game.title);
+        itemList.setAttribute("data-ano",game.ano);
+        itemList.setAttribute("data-preco",game.preco);
+
+        itemList.innerHTML = game.title +" - "+game.id+" - R$ "+game.preco;
+        list.appendChild(itemList);
+    });
+
 }).catch(err =>{
     console.log(err);
 });</script>
