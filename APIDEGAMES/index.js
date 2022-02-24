@@ -79,7 +79,7 @@ var DB = {
 
 app.get("/games",auth,(req, res)=>{
     res.statusCode = 200;
-    res.json({games: DB.games, user: req.loggedUser});
+    res.json({games: DB.games});
 });
 
 app.get("/game/:id",auth, (req,res) => {
@@ -170,9 +170,9 @@ app.put("/game/:id", (req , res) => {
 
 });
 
-app.post("/auth", (req,res) =>{
+app.post("/auth",(req,res) => {
 
-    var{email, senha} = req.body;
+    var{email, password} = req.body;
 
     if(email != undefined){
 
@@ -180,7 +180,7 @@ app.post("/auth", (req,res) =>{
 
         if(user != undefined){
 
-            if(user.senha == senha){
+            if(user.senha == password){
 
                 jwt.sign({id: user.id, email: user.email}, JWTSecret,{expiresIn:'48h'},(err, token) =>{
                     if(err){
