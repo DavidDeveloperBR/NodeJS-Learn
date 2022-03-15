@@ -89,6 +89,7 @@ database.select().table("games").orderBy("nome", "asc").then(data =>{
 }) //desc //asc 
 */
 
+/* INSERT
 database.insert({
     nome: "CD Projekt",
     gameid: 1
@@ -96,4 +97,84 @@ database.insert({
     console.log(data);
 }).catch(err => {
     console.log(err);
-})
+}) */
+
+/*INNER JOIN 1x1 
+
+database.
+    select(["games.id", "estudios.id as estudio_id", "games.nome as games_nome", "estudios.nome as estudio_nome"]).
+    table("games").
+    innerJoin("estudios","estudios.gameid", "games.id").
+    where("games.id", 1).then(data => {
+    console.log(data);
+}).catch(err => {
+    console.log(err);
+}); */
+
+/*JOIN 1xM 
+
+database.
+select(["games.id", "estudios.id as estudio_id", "games.nome as games_nome", "estudios.nome as estudio_nome"]).
+table("games").
+innerJoin("estudios","games.estudiosid", "games.id").
+where("estudios.id", 1).then(data => {
+    var estudiosGamesArray = data;
+
+    var game = {
+        id:  0,
+        nome: "",
+        estudios: []
+    }
+
+    game.id = data[0].id;
+    game.nome = data[0].nome;
+
+    data.forEach(estudio => {
+        game.estudios.push({nome: estudio.estudio_nome});
+    });
+
+    console.log(game);
+}).catch(err => {
+    console.log(err);
+});
+
+*/
+/* Relacionamento MxM
+database.select([
+    "games.nome as game",
+    "estudios.nome as estudio",
+    "games.preco as preco"
+    ]).table("games_estudios").innerJoin("games", "games.id", "games_estudios.game_id")
+    .innerJoin("estudios", "estudios.id", "games_estudios.estudio_id").where("games.id",4).then(data =>{
+    console.table(data);
+}).catch(err =>{
+    console.log(err);
+}); 
+
+database.select([
+    "games.nome as game",
+    "estudios.nome as estudio",
+    "games.preco as preco"
+    ]).table("games_estudios").innerJoin("games", "games.id", "games_estudios.game_id")
+    .innerJoin("estudios", "estudios.id", "games_estudios.estudio_id").then(data =>{
+    console.table(data);
+}).catch(err =>{
+    console.log(err);
+}); */
+
+async function testeTransacao(){
+
+    try {
+        await database.transaction(async trans =>{
+           await database.insert({nome: "Riot"}).table("estudios");
+           await database.insert({nome: "League Of Legends", preco: 0.00}).table("games");
+           await database.insert({nome: "Nitendo"}).table("estudios");
+           await database.insert({nome: "Zelda: Breath of The Wild", preco: 200.00}).table("games");
+        })
+    } catch (error) {
+        console.log(err);
+    }
+
+}
+
+testeTransacao();
