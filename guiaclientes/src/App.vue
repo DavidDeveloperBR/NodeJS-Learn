@@ -1,26 +1,89 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app">
+    <h3>Cadastro</h3>
+    <small id="nomeError" v-show="deuErro">Nome é inválido, tente novamente</small><br>
+    <input type="text" placeholder="Nome" v-model="nomeField" />
+    <input type="email" placeholder="E-mail" v-model="emailField" />
+    <input type="number" placeholder="Idade" v-model="idadeField" />
+    <button @click="cadastrarUsuario">Cadastrar</button>
+    <hr />
+    <div v-for="(cliente, index) in clientes" :key="cliente.id">
+      <h4>{{ index + 1 }}</h4>
+      <Cliente :cliente="cliente" @meDelete="deletarUsuario($event)"/>
+      <hr />
+    </div>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import Cliente from "./components/Cliente";
+//import Produto from './components/Produto';
 export default {
-  name: 'App',
+  name: "App",
+  data() {
+    return {
+      deuErro: false,
+      nomeField: "",
+      emailField: "",
+      idadeField: 0,
+      clientes: [
+        {
+          id: 1,
+          nome: "cliente1",
+          email: "cliente1@mail.com",
+          idade: 65,
+        },
+        {
+          id: 2,
+          nome: "cliente2",
+          email: "cliente2@mail.com",
+          idade: 35,
+        },
+        {
+          id: 3,
+          nome: "cliente3",
+          email: "cliente3@mail.com",
+          idade: 21,
+        },
+      ],
+    };
+  },
   components: {
-    HelloWorld
-  }
-}
+    Cliente,
+    //Produto
+  },
+  methods: {
+    cadastrarUsuario: function () {
+      if (this.nomeField == "" || this.nomeField == " " || this.nomeField.lenght < 3) {
+        this.deuErro = true;
+      } else {
+        this.clientes.push({
+          id: Date.now(),
+          nome: this.nomeField,
+          email: this.emailField,
+          idade: this.idadeField,
+        });
+        this.nomeField = "";
+        this.emailField = "";
+        this.idadeField = 0;
+        this.deuErro = false
+      }
+    },
+    deletarUsuario: function($event){
+      console.log("Recebendo evento!")
+      var id = $event.id;
+
+      var novoArray = this.clientes.filter(cliente => cliente.id != id);
+      this.clientes = novoArray;
+    }
+  },
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  #nomeError {
+    color: red;
+  }
+
+
 </style>
