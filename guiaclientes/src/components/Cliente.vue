@@ -1,13 +1,14 @@
 <template>
     <div :class="{'cliente': !isPremium,'cliente-premium': isPremium}">
         <h4>Nome: {{cliente.nome}}</h4>
-        <p>E-mail: {{cliente.email}}</p>
+        <p>E-mail: {{processarEmail}}</p>
         <p v-if="showIdade === true">Idade: {{cliente.idade}}</p>
         <p v-else-if="showIdade > 23">else if</p>
         <p v-else>Esse cliente escondeu a idade</p>       
         <p v-show="showIdade === true">Idade: {{cliente.idade}}</p>
         <button @click="mudarCor($event)" >Mudar cor!</button>
         <button @click="emitirEventoDelete">Deletar</button>
+        <h4>Id Especial: {{idEspecial}}</h4>
     </div>
 </template>
 
@@ -33,6 +34,14 @@ export default {
         },
         testar: function(){
             console.log("Testando!");
+        }
+    },
+    computed: {
+        processarEmail() {
+            return this.cliente.email.toUpperCase();
+        },
+        idEspecial() {
+            return (this.cliente.email + this.cliente.nome + this.cliente.id).toUpperCase();
         }
     }
     

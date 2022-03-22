@@ -6,8 +6,12 @@
     <input type="email" placeholder="E-mail" v-model="emailField" />
     <input type="number" placeholder="Idade" v-model="idadeField" />
     <button @click="cadastrarUsuario">Cadastrar</button>
+    <div class="buttons">
+  <button class="button is-primary">Primary</button>
+  <button class="button is-link">Link</button>
+</div>
     <hr />
-    <div v-for="(cliente, index) in clientes" :key="cliente.id">
+    <div v-for="(cliente, index) in orderClientes" :key="cliente.id">
       <h4>{{ index + 1 }}</h4>
       <Cliente :cliente="cliente" @meDelete="deletarUsuario($event)"/>
       <hr />
@@ -17,6 +21,7 @@
 
 <script>
 import Cliente from "./components/Cliente";
+import _ from 'lodash';
 //import Produto from './components/Produto';
 export default {
   name: "App",
@@ -77,6 +82,11 @@ export default {
       this.clientes = novoArray;
     }
   },
+  computed: {
+    orderClientes() {
+      return _.orderBy(this.clientes,['nome'], ['asc']);
+    }
+  }
 };
 </script>
 
