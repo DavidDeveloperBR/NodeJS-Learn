@@ -34,6 +34,25 @@ class User{
 
     }
 
+    async findByEmail(email){
+        
+        try {
+            var result = await knex.select('id','name','email','password','role').where({email: email}).table('users');
+            
+            if (result.length > 0) {
+                return result[0];
+            }else{
+                console.log("Não encontrado");
+                return undefined;
+            }
+ 
+         } catch (err) {
+             console.log(error);
+             return undefined;
+         }
+
+    }
+
     async new(name, email, password){
 
         try {
@@ -124,6 +143,17 @@ class User{
        }
 
     }
+
+    async changePassword(id, newPassword){
+        var hash = await bcrypt.hash(newPassword, 10);
+
+        try { 
+            await knex.update({password: hash}).where({id: id}).table('users');
+        } catch (error) {
+            
+        }
+    }
+
 
 }
 module.exports = new User();
