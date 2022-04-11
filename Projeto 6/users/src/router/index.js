@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import LoginView from '../views/LoginView.vue'
 import UsersView from '../views/UsersView.vue'
+import EditView from '../views/EditView.vue'
 import axios from 'axios'
 
 
@@ -14,7 +15,6 @@ function AdminAuth(to, from, next){
         Authorization: "Bearer "+ localStorage.getItem('token')
       }
     }
-    console.log(req);
 
     axios.post('http://localhost:8686/validate',{},req).then(res => {
       console.log(res);
@@ -48,6 +48,12 @@ const routes = [
     path: '/admin/users',
     name:'users',
     component: UsersView,
+    beforeEnter: AdminAuth
+  },
+  {
+    path: '/admin/users/edit/:id',
+    name: 'edit',
+    component: EditView,
     beforeEnter: AdminAuth
   },
   {
