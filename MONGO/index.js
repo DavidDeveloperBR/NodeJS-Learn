@@ -23,12 +23,6 @@ const Article = mongoose.model("Article", ArticleModel);
 //     console.log('Erro ao atualizar artigo: ', err);
 // });
 
-Article.find({'_id':'625dd8ab8fdd79b131464361'}).then(articles =>{
-    console.log(articles);
-}).catch(err =>{
-    console.log(err);
-});
-
 
 /* find normal */
 // Article.find({'author': 'David Rodrigues', 'title': 'React Avançado'}).then(articles =>{
