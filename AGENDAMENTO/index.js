@@ -44,9 +44,36 @@ app.get('/getcalendar', async (req, res) =>{
     res.json(appointments);
 });
 
-app.get('/event/:id', async(req, res) =>{   
-    res.json({id: req.params.id});
+app.get('/event/:id', async(req, res) =>{  
+    var appointment = await AppointmentService.getById(req.params.id);
+    console.log(appointment);
+    res.render('event.ejs',{appo: appointment});
+
 })
+
+app.post('/finish', async (req, res) =>{
+    var id = req.body.id;
+    var result = await AppointmentService.finish(id);
+    res.redirect('/');
+});
+
+app.get('/list', async (req, res) =>{
+    //await AppointmentService.search('david.rodrigues@ufba.br')
+
+    var appos = await AppointmentService.getAll(true);
+    res.render('list.ejs', {appos});
+});
+
+app.get('/searchresult', async (req, res) =>{
+    var appos = await AppointmentService.search(req.query.search);
+    res.render('list.ejs', {appos});
+});
+
+const pollTime = 1000 * 60 * 5;
+setInterval(() => {
+    AppointmentService.sendNotification();
+    
+}, pollTime);
 
 app.listen(8080, () => {
     console.log('Server is running on port 8080');
