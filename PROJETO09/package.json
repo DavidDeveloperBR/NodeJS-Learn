@@ -1,0 +1,20 @@
+{
+  "name": "PROJETO09",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/jest": "^27.4.1",
+    "express": "^4.18.0",
+    "jest": "^28.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.3.1",
+    "supertest": "^6.2.2"
+  }
+}
