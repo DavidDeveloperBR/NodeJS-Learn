@@ -16,7 +16,7 @@
 
 <script>
 import axios from "axios";
-import Pokemon from "./components/Pokemon";
+import Pokemon from "./components/pokemon-view.vue";
 export default {
   name: "App",
   data() {
